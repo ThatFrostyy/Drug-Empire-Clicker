@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Drug Empire Clicker</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="stylesheet" href="../css/style.css"></head>
+<body>
+  <!-- Heat & Cash -->
+  <header class="fixed-header">
+    <div class="header-item">
+      <label>Heat</label>
+      <div id="heat-bar"><div id="heat-fill"></div></div>
+    </div>
+    <div class="header-item">
+      💵 $<span id="cash-count">0</span>
+    </div>
+  </header>
+
+  <div class="game-container">
+    <!-- Progression Bar (icons = selectors) -->
+    <section class="panel progression-panel">
+      <h2>Choose Drug</h2>
+      <div id="progression-bar"></div>
+    </section>
+
+    <!-- Produce & Sell -->
+    <section class="panel action-panel">
+      <h2 id="current-drug-name">–</h2>
+      <p>You have <strong><span id="current-drug-count">0</span> g</strong></p>
+      <div class="action-buttons">
+        <button id="clicker" class="btn primary-btn">Produce</button>
+        <button id="sell-btn" class="btn secondary-btn">Sell</button>
+      </div>
+    </section>
+
+    <section class="panel upgrade-panel">
+      <h2>Upgrades</h2>
+      <div id="upgrade-list"></div>
+    </section>
+
+    <!-- Dealers -->
+    <section class="panel shop-panel">
+      <h2>Dealers</h2>
+      <p>Dealers: <span id="dealer-count">0</span></p>     
+      <div class="action-buttons">  
+        <button id="buy-dealer" class="btn primary-btn">Hire Dealer ($100)</button>
+      </div>     
+    </section>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/heat.js"></script>
+  <script src="../js/progression.js"></script>
+  <script src="../js/save.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

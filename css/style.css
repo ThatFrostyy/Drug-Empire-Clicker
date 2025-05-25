@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Wonder+Boys&display=swap');
+
+body {
+  font-family: 'Wonder Boys', 'Comic Sans MS', cursive, sans-serif;
+  background: #121212;
+  color: #f5f5f5;
+}
+
+.fixed-header {
+  position: sticky;
+  top: 0;
+  background: #1e1e1e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 2px solid #444;
+  z-index: 100;
+}
+.header-item {
+  display: flex;
+  align-items: center;
+}
+.header-item label {
+  margin-right: 6px;
+  font-weight: bold;
+  color: #f5f5f5;
+}
+
+.game-container {
+  max-width: 550px;
+  margin: 20px auto 20px; 
+  padding: 0 10px;
+}
+
+.panel {
+  background: #1e1e1e;
+  border: 2px solid #444;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.progression-panel #progression-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.progression-panel .node {
+  cursor: pointer;
+  text-align: center;
+}
+.progression-panel .node img {
+  width: 48px;
+  height: 48px;
+  opacity: 0.4;
+  transition: opacity .2s, transform .2s;
+}
+.progression-panel .node.unlocked img {
+  opacity: 1;
+}
+.progression-panel .node.active img {
+  transform: scale(1.2);
+}
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 1em;
+  cursor: pointer;
+  margin: 4px;
+  transition: transform .1s, filter .2s;
+}
+.btn:hover {
+  filter: brightness(1.2);
+}
+.btn:active {
+  transform: scale(.95);
+}
+.primary-btn {
+  background: #2e7d32;
+  color: #fff;
+}
+.secondary-btn {
+  background: #455a64;
+  color: #fff;
+}
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+#heat-bar {
+  width: 120px;
+  height: 14px;
+  background: #333;
+  border: 1px solid #666;
+  border-radius: 4px;
+  overflow: hidden;
+}
+#heat-fill {
+  height: 100%;
+  width: 0%;
+  background: #4caf50; /* JS should update to yellow/red as heat increases */
+  transition: width .3s, background .3s;
+}
+#heat-fill {
+  transition: width 0.3s, background 0.3s ease;
+}
+
+#game-over-overlay h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+}
+#game-over-overlay p {
+  font-size: 1.2em;
+  margin-bottom: 1.5em;
+}
+
+
+/* electron */
+body::-webkit-scrollbar {
+  display: none;
+}
+button:focus {
+  outline: none;       
+  box-shadow: none;  
+}
+/* electron */
+
+.node {
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+}
+
+.node .tooltip-text {
+  text-align: left;
+  visibility: hidden;
+  width: max-content;
+  max-width: 250px;
+  background: #1e1e1e;           
+  color: #f5f5f5;
+  border: 2px solid #444;
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 0.9em;
+  line-height: 1.2;
+  position: absolute;
+  z-index: 200;
+  bottom: 125%;               
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+  white-space: normal;
+  user-select: none;
+}
+
+.node:hover .tooltip-text,
+.node:focus-within .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tooltip-title {
+  display: block;       
+  margin: 0 auto 4px;     
+  padding: 0;
+  font-weight: bold;
+  text-align: center;     
+  line-height: 1.1;      
+}
+
+.tooltip-info {
+  margin: 0; 
+}
+
+
+.upgrade-node {
+  position: relative;
+  display: inline-block;
+  margin: 6px;
+}
+
+.upgrade-node .tooltip-text {
+  text-align: left;
+  visibility: hidden;
+  width: max-content;
+  max-width: 250px;
+  background: #1e1e1e;
+  color: #f5f5f5;
+  border: 2px solid #444;
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 0.9em;
+  line-height: 1.2;
+  position: absolute;
+  z-index: 200;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+  white-space: normal;
+  user-select: none;
+}
+
+.upgrade-node:hover .tooltip-text,
+.upgrade-node:focus-within .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.upgrade-btn.purchased {
+  background: #333;
+  color: #aaa;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.node.can-unlock img {
+  box-shadow: 0 0 10px 3px #ffd700;
+  cursor: pointer;
+}
