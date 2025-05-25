@@ -21,7 +21,8 @@ let state = {
 // Upgrades
 let upgrades = [
   { name: "Better Equipment", cost: 5000, clickBonus: 1, purchased: false, desc: "Increases production per click by 1." },
-  { name: "Lab Assistant", cost: 20000, clickBonus: 3, purchased: false, desc: "Increases production per click by 3." }
+  { name: "Lab Assistant", cost: 20000, clickBonus: 3, purchased: false, desc: "Increases production per click by 3." },
+  { name: "Cooler", cost: 2000, level: 0, maxLevel: 10, desc: "Reduces heat gain from all sources by 10%." }
 ];
 
 // Sound effects

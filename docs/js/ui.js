@@ -11,12 +11,10 @@ function initUI() {
       <img src="icons/${d.key}.png" alt="${d.name}">
       <div class="tooltip-text">
         <div class="tooltip-title">
-            ${d.name}${state.unlockedDrugs.includes(i) ? ' (Unlocked)' : ''}
+          ${getDrugTooltipTitle(d, state.unlockedDrugs.includes(i))}
         </div>
         <div class="tooltip-info">
-          ${i === 0 || state.unlockedDrugs.includes(i)
-            ? `Sell Price: $${d.price}<br>Click Value: $${d.clickVal}`
-            : `Unlock Price: $${d.unlockCost}<br>Sell Price: $${d.price}<br>Click Value: $${d.clickVal}`}
+          ${getDrugTooltipInfo(d, state.unlockedDrugs.includes(i), i)}
         </div>
       </div>
     `;
@@ -64,19 +62,13 @@ function updateUI() {
     // Update tooltip title
     const tooltipTitle = node.querySelector('.tooltip-title');
     if (tooltipTitle) {
-      tooltipTitle.innerHTML = state.unlockedDrugs.includes(i)
-        ? `${d.name} (Unlocked)`
-        : d.name;
+      tooltipTitle.innerHTML = getDrugTooltipTitle(d, state.unlockedDrugs.includes(i));
     }
 
     // Update tooltip info
     const tooltipInfo = node.querySelector('.tooltip-info');
     if (tooltipInfo) {
-      if (state.unlockedDrugs.includes(i) || i === 0) {
-        tooltipInfo.innerHTML = `Sell Price: $${d.price}<br>Click Value: $${d.clickVal}`;
-      } else {
-        tooltipInfo.innerHTML = `Unlock Price: $${d.unlockCost}<br>Sell Price: $${d.price}<br>Click Value: $${d.clickVal}`;
-      }
+      tooltipInfo.innerHTML = getDrugTooltipInfo(d, state.unlockedDrugs.includes(i), i);
     }
   });
 

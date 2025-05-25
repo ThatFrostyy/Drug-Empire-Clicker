@@ -4,19 +4,52 @@ function produce() {
   const d = drugs[state.currentDrugIndex];
   let bonus = state.upgrades.reduce((sum, u) => sum + (u.clickBonus || 0), 0);
   state.counts[d.key] += d.clickVal + bonus;
-  addHeat(2);
+
+  // Cooler effect
+  const cooler = upgrades.find(u => u.name === "Cooler");
+  let heatMult = 1;
+  if (cooler && cooler.level)
+  {
+    heatMult = 1 - 0.1 * cooler.level;
+  }
+
+  addHeat(Math.max(1, Math.round(2 * heatMult)));
   updateUI();
+
   clickSound.currentTime = 0; clickSound.play(); 
 }
 
 function buyUpgrade(idx) {
   const u = upgrades[idx];
-  if (!u.purchased && state.cash >= u.cost) {
+  if (u.name === "Cooler") {
+    if (u.level === undefined)
+    {
+      u.level = 0;
+    }
+
+    if (u.level < u.maxLevel && state.cash >= u.cost) {
+      state.cash -= u.cost;
+      u.level++;
+
+      // Increase cost for next level (e.g., 1.7x)
+      u.cost = Math.floor(u.cost * 1.7);
+
+      updateUI();
+      renderUpgrades();
+
+      buySound.currentTime = 0; buySound.play();
+    }
+    return;
+  }
+  if (!u.purchased && state.cash >= u.cost) 
+  {
     state.cash -= u.cost;
     u.purchased = true;
     state.upgrades.push(u);
+
     updateUI();
     renderUpgrades();
+
     buySound.currentTime = 0; buySound.play();
   }
 }
@@ -30,19 +63,31 @@ function renderUpgrades() {
 
     const btn = document.createElement('button');
     btn.className = 'btn secondary-btn upgrade-btn';
-    btn.disabled = u.purchased || state.cash < u.cost;
-    btn.innerText = u.name;
+
+    if (u.name === "Cooler") {
+      btn.disabled = (u.level >= u.maxLevel) || state.cash < u.cost;
+      btn.innerText = u.name;
+      if (u.level >= u.maxLevel)
+      {
+        btn.classList.add('purchased');
+      }
+    } 
+    else 
+    {
+      btn.disabled = u.purchased || state.cash < u.cost;
+      btn.innerText = u.name;
+      if (u.purchased)
+      {
+        btn.classList.add('purchased');
+      }
+    }
     btn.addEventListener('click', () => buyUpgrade(i));
-    if (u.purchased) btn.classList.add('purchased');
 
     const tooltip = document.createElement('div');
     tooltip.className = 'tooltip-text';
     tooltip.innerHTML = `
-      <div class="tooltip-title">${u.name}</div>
-      <div class="tooltip-info">
-        Cost: $${u.cost}
-        ${u.desc ? `<br>${u.desc}` : ''}
-      </div>
+      <div class="tooltip-title">${getUpgradeTooltipTitle(u)}</div>
+      <div class="tooltip-info">${getUpgradeTooltipInfo(u)}</div>
     `;
 
     container.appendChild(btn);
@@ -57,22 +102,20 @@ function sellAll() {
   if (state.counts[key] > 0) {
     state.counts[key] -= 1;
     state.cash += d.price;
-    addHeat(1);
+
+    // Cooler effect
+    const cooler = upgrades.find(u => u.name === "Cooler");
+    let heatMult = 1;
+    if (cooler && cooler.level)
+    {
+      heatMult = 1 - 0.1 * cooler.level
+    }
+
+    addHeat(Math.max(1, Math.round(1 * heatMult)));
     updateUI();
+
     buySound.currentTime = 0; buySound.play();  
     clickSound.currentTime = 0; clickSound.play();
-  }
-}
-
-function hireDealer() {
-  if (state.cash >= state.dealerCost) {
-    state.cash -= state.dealerCost;
-    state.dealers++;
-    state.dealerCost = Math.floor(state.dealerCost * 1.3);
-    document.getElementById('buy-dealer').innerText = `Hire Dealer ($${state.dealerCost})`;
-    addHeat(5);
-    updateUI();
-    buySound.currentTime = 0; buySound.play();
   }
 }
 
@@ -82,12 +125,29 @@ setInterval(() => {
   const canSell = Math.min(state.counts[d.key], state.dealers);
   state.counts[d.key] -= canSell;
   state.cash += canSell * d.price;
-  if (canSell) addHeat(canSell);
+
+  // Cooler effect
+  const cooler = upgrades.find(u => u.name === "Cooler");
+  let heatMult = 1;
+  if (cooler && cooler.level)
+  {
+    heatMult = 1 - 0.1 * cooler.level;
+  }
+
+  if (canSell) 
+  {
+    addHeat(Math.max(1, Math.round(canSell * heatMult)));
+  }
   updateUI();
 }, 1000);
 
 function gameOver() {
-  if (isGameOver) return; 
+  if (isGameOver)
+  {
+    console.warn("Game is already over, cannot trigger again.");
+    return;
+  }
+
   isGameOver = true;
 
   document.querySelectorAll('button').forEach(btn => btn.disabled = true);
@@ -129,7 +189,11 @@ function restartGame() {
   state.upgrades = [];
 
   const overlay = document.getElementById('game-over-overlay');
-  if (overlay) overlay.remove();
+  if (overlay)
+  {
+    overlay.remove();
+  }
+
   document.querySelectorAll('button').forEach(btn => btn.disabled = false);
 
   document.querySelectorAll('.progression-panel .node').forEach((node, i) => {
@@ -143,7 +207,6 @@ function restartGame() {
   renderUpgrades();
 }
 
-// --- INIT ---
 loadGame();
 initUI();
 bindUI();
