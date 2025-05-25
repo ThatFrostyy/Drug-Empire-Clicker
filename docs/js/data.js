@@ -25,7 +25,7 @@ let upgrades = [
 ];
 
 // Sound effects
-const clickSound = new Audio('../sounds/click.mp3');
-const buySound = new Audio('../sounds/buy.mp3');
-const unlockSound = new Audio('../sounds/unlock.mp3');
-const gameOverSound = new Audio('../sounds/gameover.mp3');
+const clickSound = new Audio('sounds/click.mp3');
+const buySound = new Audio('sounds/buy.mp3');
+const unlockSound = new Audio('sounds/unlock.mp3');
+const gameOverSound = new Audio('sounds/gameover.mp3');

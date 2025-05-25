@@ -8,7 +8,7 @@ function initUI() {
     node.dataset.index = i;
 
     node.innerHTML = `
-      <img src="../icons/${d.key}.png" alt="${d.name}">
+      <img src="icons/${d.key}.png" alt="${d.name}">
       <div class="tooltip-text">
         <div class="tooltip-title">
             ${d.name}${state.unlockedDrugs.includes(i) ? ' (Unlocked)' : ''}
