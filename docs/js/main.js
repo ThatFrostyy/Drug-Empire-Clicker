@@ -94,6 +94,32 @@ function renderUpgrades() {
     container.appendChild(tooltip);
     list.appendChild(container);
   });
+
+  // Add Hire Dealer node
+  const dealerContainer = document.createElement('div');
+  dealerContainer.className = 'upgrade-node';
+
+  const dealerBtn = document.createElement('button');
+  dealerBtn.id = 'buy-dealer';
+  dealerBtn.className = 'btn primary-btn upgrade-btn';
+  dealerBtn.innerText = 'Hire Dealer';
+  dealerBtn.disabled = state.cash < state.dealerCost;
+
+  dealerBtn.addEventListener('click', () => hireDealer());
+
+  const dealerTooltip = document.createElement('div');
+  dealerTooltip.className = 'tooltip-text';
+  dealerTooltip.innerHTML = `
+    <div class="tooltip-title">Hire Dealer</div>
+    <div class="tooltip-info">
+      Cost: $${state.dealerCost}<br>
+      Dealers sell 1 unit per second.
+    </div>
+  `;
+
+  dealerContainer.appendChild(dealerBtn);
+  dealerContainer.appendChild(dealerTooltip);
+  document.getElementById('action-buttons').appendChild(dealerContainer);
 }
 
 function sellAll() {
@@ -116,6 +142,19 @@ function sellAll() {
 
     buySound.currentTime = 0; buySound.play();  
     clickSound.currentTime = 0; clickSound.play();
+  }
+}
+
+function hireDealer() {
+  if (state.cash >= state.dealerCost) {
+    state.cash -= state.dealerCost;
+    state.dealers++;
+    state.dealerCost = Math.floor(state.dealerCost * 1.3);
+
+    addHeat(5);
+    updateUI();
+    
+    buySound.currentTime = 0; buySound.play();
   }
 }
 

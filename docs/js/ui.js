@@ -96,6 +96,4 @@ function bindUI() {
     .addEventListener('click', () => produce());
   document.getElementById('sell-btn')
     .addEventListener('click', () => sellAll());
-  document.getElementById('buy-dealer')
-    .addEventListener('click', () => hireDealer());
 }
